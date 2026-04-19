@@ -1,18 +1,21 @@
-import { defineCommand, runMain } from "citty";
+import { defineCommand, runMain, type ArgsDef } from "citty";
+import { newCommand } from "./commands/new.js";
 
-const main = defineCommand({
+export const definedArguments = {
+  printCreatedPath: {
+    type: "boolean",
+    description: "Print the path of the created workspace and exit.",
+  },
+} satisfies ArgsDef;
+
+export const main = defineCommand({
   meta: {
     name: "yoi",
     version: "1.0.0",
     description: "yōi: A terminal-based workspace manager for developers.",
   },
-  args: {
-    "print-path": {
-      type: "boolean",
-      description: "Print the path of the current workspace and exit.",
-    },
-  },
-  run: () => import("./commands/new.js"),
+  args: definedArguments,
+  run: newCommand,
 });
 
 runMain(main);
