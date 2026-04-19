@@ -10,10 +10,11 @@ import {
 } from "../ansiEscapeSequences.js";
 import { definedArguments } from "../index.js";
 import { parseArgs } from "citty";
+import { logger } from "../logger.js";
 
 const PROJECTS_PARENT_FOLDER = os.homedir() + "/Documents/Projects";
 
-console.log("\n  yōi... \n\n");
+logger.write("\n  yōi... \n\n\n");
 
 export const newCommand = () => {
   const parsedArgs = parseArgs<typeof definedArguments>(
@@ -22,8 +23,8 @@ export const newCommand = () => {
   );
 
   if (!fs.existsSync(PROJECTS_PARENT_FOLDER)) {
-    console.error(
-      `[!] Specified projects parent folder(${PROJECTS_PARENT_FOLDER}) does not exist!`,
+    logger.error(
+      `Specified projects parent folder(${PROJECTS_PARENT_FOLDER}) does not exist!`,
     );
     process.exit(1);
   }
@@ -48,14 +49,14 @@ export const newCommand = () => {
         process.stdout.write(" >  ");
         setTextColorTo("cyan");
         setTextStyleTo("underline");
-        console.log(folder);
+        logger.write(folder + "\n");
         setTextColorTo("default");
         setTextStyleTo("default");
       } else {
         process.stdout.write("    ");
         setTextColorTo("default");
         setTextStyleTo("default");
-        console.log(folder);
+        logger.write(folder + "\n");
       }
     });
   };
@@ -71,7 +72,7 @@ export const newCommand = () => {
     rl.question("[?] Enter new project folder name: ", (answer) => {
       folderName = answer.trim();
       if (folderName.length === 0) {
-        console.error("[!] Folder name cannot be empty!");
+        logger.error("Folder name cannot be empty!");
         rl.close();
         askFolderName();
         return;
@@ -79,25 +80,23 @@ export const newCommand = () => {
 
       const newFolderPath = `${PROJECTS_PARENT_FOLDER}/${selectedFolder}/${folderName}`;
       if (fs.existsSync(newFolderPath)) {
-        console.error("[!] A folder with the same name already exists!");
+        logger.error("A folder with the same name already exists!");
         rl.close();
         askFolderName();
         return;
       }
 
       fs.mkdirSync(newFolderPath);
-      console.log(`Created new project folder: ${newFolderPath}`);
-      parsedArgs.printCreatedPath && console.log(newFolderPath);
+      logger.info(`Created new project folder: ${newFolderPath}`);
+      parsedArgs.printCreatedPath && logger.stdout(newFolderPath);
 
       rl.close();
       process.exit(0);
     });
   };
 
-  console.log(
-    "[?] Select project folder you want to create new workspace in: ",
-  );
-  console.log("\n".repeat(projectFolders.length + 1));
+  logger.prompt("Select project folder you want to create new workspace in: ");
+  logger.write("\n".repeat(projectFolders.length + 1));
   renderProjectFolders();
 
   process.stdin.setRawMode(true);
@@ -111,11 +110,11 @@ export const newCommand = () => {
       case keys.enter:
         const currentSelectedFolder = projectFolders[currentSelectedIndex];
         if (currentSelectedFolder === undefined) {
-          console.error("[!] No project folder selected!");
+          logger.error("[!] No project folder selected!");
           process.exit(1);
         } else {
           selectedFolder = currentSelectedFolder;
-          console.log(`Selected folder: ${selectedFolder}`);
+          logger.info(`Selected folder: ${selectedFolder}`);
           process.stdin.setRawMode(false);
           process.stdin.pause();
           process.stdin.resume();

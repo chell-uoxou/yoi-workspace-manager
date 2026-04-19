@@ -4,7 +4,7 @@ import { newCommand } from "./commands/new.js";
 export const definedArguments = {
   printCreatedPath: {
     type: "boolean",
-    description: "Print the path of the created workspace and exit.",
+    description: "Print the path of the current workspace and exit.",
   },
 } satisfies ArgsDef;
 
