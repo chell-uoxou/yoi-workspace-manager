@@ -1,5 +1,7 @@
 import fs from "fs";
 import os from "os";
+import readline from "readline";
+
 import keys from "./rawKeyboardInputs.js";
 import {
   cursor,
@@ -23,8 +25,9 @@ const projectFolders = fs.readdirSync(PROJECTS_PARENT_FOLDER).filter((file) => {
 });
 
 let currentSelectedIndex = 0;
+let selectedFolder = "";
 const renderProjectFolders = () => {
-  for (let i = 0; i < projectFolders.length + 1; i++) {
+  for (let i = 0; i < projectFolders.length; i++) {
     cursor.up(1);
     cursor.clearLine();
   }
@@ -46,21 +49,64 @@ const renderProjectFolders = () => {
   });
 };
 
+const askFolderName = () => {
+  let folderName = "";
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: true,
+  });
+
+  rl.question("[?] Enter new project folder name: ", (answer) => {
+    folderName = answer.trim();
+    if (folderName.length === 0) {
+      console.error("[!] Folder name cannot be empty!");
+      rl.close();
+      askFolderName();
+      return;
+    }
+
+    const newFolderPath = `${PROJECTS_PARENT_FOLDER}/${selectedFolder}/${folderName}`;
+    if (fs.existsSync(newFolderPath)) {
+      console.error("[!] A folder with the same name already exists!");
+      rl.close();
+      askFolderName();
+      return;
+    }
+
+    fs.mkdirSync(newFolderPath);
+    console.log(`Created new project folder: ${newFolderPath}`);
+    rl.close();
+  });
+};
+
 console.log("[?] Select project folder you want to create new workspace in: ");
 console.log("\n".repeat(projectFolders.length + 1));
 renderProjectFolders();
 
 process.stdin.setRawMode(true);
 
-process.stdin.on("data", (key: Buffer) => {
+const a = process.stdin.on("data", (key: Buffer) => {
   const str = key.toString();
-  console.log(JSON.stringify(str));
   switch (str) {
     case keys.ctrl.c:
       process.exit(0);
 
     case keys.enter:
-      console.log("Enter key pressed");
+      const currentSelectedFolder = projectFolders[currentSelectedIndex];
+      if (currentSelectedFolder === undefined) {
+        console.error("[!] No project folder selected!");
+        process.exit(1);
+      } else {
+        selectedFolder = currentSelectedFolder;
+        console.log(`Selected folder: ${selectedFolder}`);
+        process.stdin.setRawMode(false);
+        process.stdin.pause();
+        process.stdin.resume();
+        a.removeAllListeners("data");
+
+        askFolderName();
+      }
       break;
 
     case keys.up:
@@ -79,7 +125,6 @@ process.stdin.on("data", (key: Buffer) => {
       break;
 
     default:
-      console.log(`Pressed key: ${str}`);
       break;
   }
 });
