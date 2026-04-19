@@ -14,7 +14,7 @@ import { logger } from "../logger.js";
 
 const PROJECTS_PARENT_FOLDER = os.homedir() + "/Documents/Projects";
 
-logger.write("\n  yōi... \n\n\n");
+logger.write("\n       yōi  用意 \n\n\n");
 
 export const newCommand = () => {
   const parsedArgs = parseArgs<typeof definedArguments>(
@@ -90,7 +90,10 @@ export const newCommand = () => {
         }
 
         fs.mkdirSync(newFolderPath);
-        logger.info(`Created new project folder: ${newFolderPath}`);
+        logger.write("\n");
+        logger.info(`Created new project folder! (${newFolderPath})\n`);
+        // logger.write("\n  * ‧₊˚.  ready.  * .+ ゜  \n\n");
+        logger.write("\n         ready.\n\n");
         parsedArgs.printCreatedPath && logger.stdout(newFolderPath);
 
         rl.close();
@@ -119,9 +122,10 @@ export const newCommand = () => {
         } else {
           selectedFolder = currentSelectedFolder;
 
+          logger.write("\n\n");
           logger.info(`Selected folder: `, true);
           setTextStyleTo("bold");
-          logger.write(selectedFolder + "\n");
+          logger.write(selectedFolder + "\n\n");
           setTextStyleTo("default");
 
           process.stdin.setRawMode(false);
