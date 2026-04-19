@@ -48,7 +48,7 @@ export const newCommand = () => {
       if (folder === projectFolders[currentSelectedIndex]) {
         logger.write(" >  ");
         setTextColorTo("cyan");
-        setTextStyleTo("underline");
+        setTextStyleTo("bold");
         logger.write(folder + "\n");
         setTextColorTo("default");
         setTextStyleTo("default");
@@ -69,30 +69,34 @@ export const newCommand = () => {
       terminal: true,
     });
 
-    rl.question("[?] Enter new project folder name: ", (answer) => {
-      folderName = answer.trim();
-      if (folderName.length === 0) {
-        logger.error("Folder name cannot be empty!");
+    rl.question(
+      "\u001b[0m[?] Enter new project folder name: \u001b[1m",
+      (answer) => {
+        setTextStyleTo("default");
+        folderName = answer.trim();
+        if (folderName.length === 0) {
+          logger.error("Folder name cannot be empty!");
+          rl.close();
+          askFolderName();
+          return;
+        }
+
+        const newFolderPath = `${PROJECTS_PARENT_FOLDER}/${selectedFolder}/${folderName}`;
+        if (fs.existsSync(newFolderPath)) {
+          logger.error("A folder with the same name already exists!");
+          rl.close();
+          askFolderName();
+          return;
+        }
+
+        fs.mkdirSync(newFolderPath);
+        logger.info(`Created new project folder: ${newFolderPath}`);
+        parsedArgs.printCreatedPath && logger.stdout(newFolderPath);
+
         rl.close();
-        askFolderName();
-        return;
-      }
-
-      const newFolderPath = `${PROJECTS_PARENT_FOLDER}/${selectedFolder}/${folderName}`;
-      if (fs.existsSync(newFolderPath)) {
-        logger.error("A folder with the same name already exists!");
-        rl.close();
-        askFolderName();
-        return;
-      }
-
-      fs.mkdirSync(newFolderPath);
-      logger.info(`Created new project folder: ${newFolderPath}`);
-      parsedArgs.printCreatedPath && logger.stdout(newFolderPath);
-
-      rl.close();
-      process.exit(0);
-    });
+        process.exit(0);
+      },
+    );
   };
 
   logger.prompt("Select project folder you want to create new workspace in: ");
@@ -114,7 +118,12 @@ export const newCommand = () => {
           process.exit(1);
         } else {
           selectedFolder = currentSelectedFolder;
-          logger.info(`Selected folder: ${selectedFolder}`);
+
+          logger.info(`Selected folder: `, true);
+          setTextStyleTo("bold");
+          logger.write(selectedFolder + "\n");
+          setTextStyleTo("default");
+
           process.stdin.setRawMode(false);
           process.stdin.pause();
           process.stdin.resume();
