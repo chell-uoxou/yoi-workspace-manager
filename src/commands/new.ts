@@ -46,14 +46,14 @@ export const newCommand = () => {
 
     projectFolders.forEach((folder) => {
       if (folder === projectFolders[currentSelectedIndex]) {
-        process.stdout.write(" >  ");
+        logger.write(" >  ");
         setTextColorTo("cyan");
         setTextStyleTo("underline");
         logger.write(folder + "\n");
         setTextColorTo("default");
         setTextStyleTo("default");
       } else {
-        process.stdout.write("    ");
+        logger.write("    ");
         setTextColorTo("default");
         setTextStyleTo("default");
         logger.write(folder + "\n");
@@ -65,7 +65,7 @@ export const newCommand = () => {
     let folderName = "";
     const rl = readline.createInterface({
       input: process.stdin,
-      output: process.stdout,
+      output: process.stderr,
       terminal: true,
     });
 
