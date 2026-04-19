@@ -11,6 +11,9 @@ importers:
       '@types/node':
         specifier: ^25.6.0
         version: 25.6.0
+      citty:
+        specifier: ^0.2.2
+        version: 0.2.2
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -179,6 +182,9 @@ packages:
   '@types/node@25.6.0':
     resolution: {integrity: sha512-+qIYRKdNYJwY3vRCZMdJbPLJAtGjQBudzZzdzwQYkEPQd+PJGixUL5QfvCLDaULoLv+RhT3LDkwEfKaAkgSmNQ==}
 
+  citty@0.2.2:
+    resolution: {integrity: sha512-+6vJA3L98yv+IdfKGZHBNiGW5KHn22e/JwID0Strsz8h4S/csAu/OuICwxrg44k5MRiZHWIo8XXuJgQTriRP4w==}
+
   esbuild@0.27.7:
     resolution: {integrity: sha512-IxpibTjyVnmrIQo5aqNpCgoACA/dTKLTlhMHihVHhdkxKyPO1uBBthumT0rdHmcsk9uMonIWS0m4FljWzILh3w==}
     engines: {node: '>=18'}
@@ -291,6 +297,8 @@ snapshots:
   '@types/node@25.6.0':
     dependencies:
       undici-types: 7.19.2
+
+  citty@0.2.2: {}
 
   esbuild@0.27.7:
     optionalDependencies:
