@@ -1,5 +1,5 @@
 import { defineCommand, runMain, type ArgsDef } from "citty";
-import { newCommand } from "./commands/new.js";
+import { newCommand } from "./commands/new/entrypoint.js";
 
 export const definedArguments = {
   printCreatedPath: {

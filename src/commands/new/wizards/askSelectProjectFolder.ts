@@ -7,7 +7,7 @@ import {
 } from "../../../ansiEscapeSequences.js";
 import { logger } from "../../../logger.js";
 import keys from "../../../rawKeyboardInputs.js";
-import type { NewCommandContextType } from "../../new.js";
+import type { NewCommandContextType } from "../entrypoint.js";
 
 let currentSelectedIndex = 0;
 
