@@ -5,6 +5,7 @@ import readline from "readline";
 import keys from "../rawKeyboardInputs.js";
 import {
   cursor,
+  resetAllTTYStates,
   setTextColorTo,
   setTextStyleTo,
   utils,
@@ -114,6 +115,7 @@ export const newCommand = () => {
     const str = key.toString();
     switch (str) {
       case keys.ctrl.c:
+        resetAllTTYStates();
         process.exit(0);
 
       case keys.enter:

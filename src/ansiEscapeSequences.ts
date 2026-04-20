@@ -83,3 +83,8 @@ export const utils = {
   showCursor: () => process.stderr.write(`${ESC}?25h`),
   hideCursor: () => process.stderr.write(`${ESC}?25l`),
 };
+
+export const resetAllTTYStates = () => {
+  setTextStyleTo("default");
+  utils.showCursor();
+};
