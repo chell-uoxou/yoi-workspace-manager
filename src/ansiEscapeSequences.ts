@@ -78,3 +78,8 @@ export const setTextStyleTo = (
       break;
   }
 };
+
+export const utils = {
+  showCursor: () => process.stderr.write(`${ESC}?25h`),
+  hideCursor: () => process.stderr.write(`${ESC}?25l`),
+};

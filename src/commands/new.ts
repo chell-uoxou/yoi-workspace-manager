@@ -7,6 +7,7 @@ import {
   cursor,
   setTextColorTo,
   setTextStyleTo,
+  utils,
 } from "../ansiEscapeSequences.js";
 import { definedArguments } from "../index.js";
 import { parseArgs } from "citty";
@@ -41,7 +42,6 @@ export const newCommand = () => {
   const renderProjectFolders = () => {
     for (let i = 0; i < projectFolders.length; i++) {
       cursor.up(1);
-      cursor.clearLine();
     }
 
     projectFolders.forEach((folder) => {
@@ -103,10 +103,12 @@ export const newCommand = () => {
   };
 
   logger.prompt("Select project folder you want to create new workspace in: ");
+
   logger.write("\n".repeat(projectFolders.length + 1));
   renderProjectFolders();
 
   process.stdin.setRawMode(true);
+  utils.hideCursor();
 
   const a = process.stdin.on("data", (key: Buffer) => {
     const str = key.toString();
@@ -128,6 +130,7 @@ export const newCommand = () => {
           logger.write(selectedFolder + "\n\n");
           setTextStyleTo("default");
 
+          utils.showCursor();
           process.stdin.setRawMode(false);
           process.stdin.pause();
           process.stdin.resume();
