@@ -4,9 +4,9 @@ import {
   setTextStyleTo,
   cursor,
   setTextColorTo,
-} from "../../../ansiEscapeSequences.js";
-import { logger } from "../../../logger.js";
-import keys from "../../../rawKeyboardInputs.js";
+} from "../../../utils/ansiEscapeSequences.js";
+import { logger } from "../../../utils/logger.js";
+import keys from "../../../utils/rawKeyboardInputs.js";
 import type { NewCommandContextType } from "../entrypoint.js";
 
 let currentSelectedIndex = 0;

@@ -3,7 +3,7 @@ import os from "os";
 
 import { definedArguments } from "../../index.js";
 import { parseArgs } from "citty";
-import { logger } from "../../logger.js";
+import { logger } from "../../utils/logger.js";
 import { askSelectProjectFolder } from "./wizards/askSelectProjectFolder.js";
 import { askFolderName } from "./wizards/askFolderName.js";
 

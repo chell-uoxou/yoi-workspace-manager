@@ -1,4 +1,4 @@
-import { setTextStyleTo } from "../../../ansiEscapeSequences.js";
+import { setTextStyleTo } from "../../../utils/ansiEscapeSequences.js";
 import type { NewCommandContextType } from "../entrypoint.js";
 import readline from "readline";
 import fs from "fs";
