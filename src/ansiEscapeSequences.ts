@@ -18,7 +18,8 @@ export const setTextColorTo = (
     | "magenta"
     | "cyan"
     | "white"
-    | "default",
+    | "default"
+    | number,
 ) => {
   switch (color) {
     case "black":
@@ -47,6 +48,11 @@ export const setTextColorTo = (
       break;
     case "default":
       process.stderr.write(`${ESC}39m`);
+      break;
+    default:
+      if (typeof color === "number" && color >= 0 && color <= 255) {
+        process.stderr.write(`${ESC}38;5;${color}m`);
+      }
       break;
   }
 };

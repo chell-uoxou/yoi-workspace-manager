@@ -47,16 +47,16 @@ export const newCommand = () => {
     projectFolders.forEach((folder) => {
       if (folder === projectFolders[currentSelectedIndex]) {
         logger.write(" >  ");
-        setTextColorTo("cyan");
+        setTextColorTo("default");
         setTextStyleTo("bold");
         logger.write(folder + "\n");
-        setTextColorTo("default");
         setTextStyleTo("default");
       } else {
         logger.write("    ");
-        setTextColorTo("default");
         setTextStyleTo("default");
+        setTextColorTo(243); // gray
         logger.write(folder + "\n");
+        setTextStyleTo("default");
       }
     });
   };
