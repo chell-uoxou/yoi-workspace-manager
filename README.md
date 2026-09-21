@@ -45,5 +45,4 @@ pnpm dev     # ビルドせずに実行
 pnpm build   # dist/ に出力
 ```
 
-`npm link` が指すのは `dist/index.js` なので、直したら `pnpm build` が必要です。
-作る場所は `src/commands/new/entrypoint.ts` に直書きしてあり、そのフォルダが無いとエラーで終了します。
+コードの変更をbinとして反映するには `pnpm build` が必要です
